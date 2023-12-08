@@ -23,3 +23,7 @@ http://localhost:3000/
 To start the server locally:
 npx ts-node server.ts
 
+
+
+Note that the rest.http client has been created to test the basic CRUD operation from VSCODE. Any other platform can be used for this test
+
