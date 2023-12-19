@@ -1,43 +1,18 @@
 import express from "express";
 import { PrismaClient } from '@prisma/client'
 import { ObjectId } from 'bson';
-const id = new ObjectId();
+var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
 
 
 
 const router = express.Router();
 const prisma = new PrismaClient()
 
-router.post('/', async (req, res, next) => {
+router.post('/', jsonParser, async (req, res, next) => {
     try {
         const Tasks = await prisma.tasks.createMany({
-            data: [
-                {
-                    "title": "quis ut nam facilis et officia qui",
-                    "description":"quis ut nam facilis et officia qui",
-                    "status": "pending"
-                  },
-                  {
-                    "title": "fugiat veniam minus",
-                    "description": "quis ut nam facilis et officia qui",
-                    "status": "Pending"
-                  },
-                  {
-                    "title": "et porro tempora",
-                    "description": "quis ut nam facilis et officia qui",
-                    "status": "Completed"
-                  },
-                  {
-                    "title": "laboriosam mollitia et enim quasi adipisci quia provident illum",
-                    "description": "quis ut nam facilis et officia qui",
-                    "status": "Pending"
-                  },
-                  {
-                    "title": "qui ullam ratione quibusdam voluptatem quia omnis",
-                    "description": "quis ut nam facilis et officia qui",
-                    "status": "pending"
-                  }
-              ],
+         data:req.body,
         })
         res.json(Tasks)
         console.log(Tasks);
@@ -90,13 +65,13 @@ router.get('/:id', async (req, res, next) => {
     })
 
 
-    router.patch('/:id', async (req, res, next) => {
+    router.put('/:id', jsonParser, async (req, res, next) => {
         try {
             const Tasks = await prisma.tasks.update({
                 where: {
                     id: req.params.id.toString(),
                 },
-                data: req.body,
+                data: req.body
             })
             res.json(Tasks)
         } catch (error) {
